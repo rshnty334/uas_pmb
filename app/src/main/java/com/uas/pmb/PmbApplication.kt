@@ -1,4 +1,4 @@
-package com.uas.pmb.ui
+package com.uas.pmb
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

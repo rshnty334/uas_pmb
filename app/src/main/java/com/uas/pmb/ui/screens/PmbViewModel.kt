@@ -20,7 +20,10 @@ class PmbViewModel @Inject constructor(private val repo: PmbRepository) : ViewMo
         viewModelScope.launch {
             val res = repo.login(mapOf("email" to email, "password" to pass))
             if (res.isSuccessful) {
-                res.body()?.accessToken?.let { repo.saveToken(it); onOk() }
+                res.body()?.accessToken?.let {
+                    repo.saveToken(it)
+                    onOk()
+                }
             }
         }
     }

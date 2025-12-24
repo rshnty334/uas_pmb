@@ -6,7 +6,7 @@ class PmbRepository @Inject constructor(
     private val api: PmbApiService,
     private val tokenManager: TokenManager
 ) {
-    fun getToken() = tokenManager.token
+    val token = tokenManager.token
 
     suspend fun login(creds: Map<String, String>) = api.login(creds)
 

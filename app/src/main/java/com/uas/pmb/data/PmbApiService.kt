@@ -7,11 +7,10 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface PmbApiService {
+    @POST("login")
+    suspend fun login(@Body creds: Map<String, String>): Response<AuthResponse>
     @POST("register")
     suspend fun register(@Body user: UserDto): Response<UserDto>
-
-    @POST("login")
-    suspend fun login(@Body creds: Map<String, String>): Response<Map<String, String>>
 
     @GET("api/mabas")
     suspend fun getMabas(@Header("Authorization") token: String): List<MabaDto>

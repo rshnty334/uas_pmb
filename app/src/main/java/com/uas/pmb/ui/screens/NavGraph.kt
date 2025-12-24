@@ -9,19 +9,10 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun PmbNavGraph() {
     val navController = rememberNavController()
-
     NavHost(navController = navController, startDestination = "login") {
-        composable("login") {
-            LoginScreen(navController) // Memanggil dari LoginScreen.kt
-        }
-        composable("dashboard") {
-            DashboardScreen(navController) // Memanggil dari DashboardScreen.kt
-        }
-        composable("profile") {
-            ProfileScreen(navController) // Memanggil dari ProfileScreen.kt
-        }
-        composable("add_maba") {
-            AddMabaScreen(navController) // Memanggil dari AddMabaScreen.kt
-        }
+        composable("login") { LoginScreen(navController) }
+        composable("dashboard") { DashboardScreen(navController) }
+        composable("profile") { ProfileScreen(navController) }
+        composable("add_maba") { AddMabaScreen(navController) }
     }
 }

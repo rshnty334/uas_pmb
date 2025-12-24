@@ -17,8 +17,8 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val response = api.login(mapOf("email" to email, "password" to pass))
             if (response.isSuccessful) {
-                response.body()?.get("accessToken")?.let {
-                    tokenManager.saveToken(it)
+                response.body()?.accessToken?.let {
+                    tokenManager.saveToken(it) // 'it' di sini sudah otomatis berisi token string
                     onSuccess()
                 }
             }
