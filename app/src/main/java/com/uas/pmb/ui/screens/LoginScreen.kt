@@ -78,7 +78,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         // Opsional: Tombol Register jika kamu membuat fiturnya
-        TextButton(onClick = { /* Navigasi ke register jika ada */ }) {
+        TextButton(onClick = { navController.navigate("register") }) {
             Text("Belum punya akun? Daftar sekarang")
         }
     }

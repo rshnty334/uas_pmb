@@ -10,7 +10,7 @@ data class AuthResponse(
 
 data class UserDto(
     val id: Long? = null,
-    val nama: String? = null,
+    @SerializedName("name") val nama: String? = null,
     val email: String,
     val password: String? = null,
     val role: String? = null

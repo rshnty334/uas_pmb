@@ -3,6 +3,7 @@ package com.uas.pmb.ui.screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.uas.pmb.data.*
+import com.uas.pmb.network.NetworkModule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -17,17 +18,46 @@ class PmbViewModel @Inject constructor(private val repo: PmbRepository) : ViewMo
     val profile = _profile.asStateFlow()
 
     // Fungsi Login yang tadinya di LoginViewModel pindah ke sini
-    fun login(email: String, pass: String, onOk: () -> Unit) {
+    fun login(email: String, password: String, onOk: () -> Unit) {
         viewModelScope.launch {
-            val res = repo.login(mapOf("email" to email, "password" to pass))
-            if (res.isSuccessful) {
-                res.body()?.accessToken?.let {
-                    repo.saveToken(it)
-                    onOk()
+            try {
+                // Sesuai dengan interface kamu yang menggunakan Map<String, String>
+                val creds = mapOf("email" to email, "password" to password)
+
+                val response = NetworkModule.apiService.login(creds)
+
+                if (response.isSuccessful) {
+                    val authResponse = response.body()
+                    println("Login Berhasil: ${authResponse?.accessToken}")
+                    // Simpan token ke DataStore/SharedPrefs
+                } else {
+                    // Ini menangani 401 Unauthorized
+                    println("Login Gagal: Kode ${response.code()}")
                 }
+            } catch (e: Exception) {
+                // Ini menangani SocketTimeoutException
+                println("Error Jaringan: ${e.message}")
             }
         }
     }
+
+    // Tambahkan ini di PmbViewModel.kt
+    fun register(user: UserDto, onOk: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                // Pastikan di Repository kamu sudah ada fungsi register
+                val res = repo.register(user)
+                if (res.isSuccessful) {
+                    onOk()
+                } else {
+                    println("Registrasi Gagal: ${res.code()}")
+                }
+            } catch (e: Exception) {
+                println("Error Jaringan: ${e.message}")
+            }
+        }
+    }
+
 
     fun loadMabas() {
         viewModelScope.launch {
