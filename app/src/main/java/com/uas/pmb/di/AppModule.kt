@@ -19,7 +19,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRetrofit(): PmbApiService = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:8080/") // IP Localhost dari Emulator
+        .baseUrl("http://192.168.100.94:8080/") // IP Localhost dari Emulator
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(PmbApiService::class.java)

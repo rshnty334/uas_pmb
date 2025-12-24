@@ -2,6 +2,12 @@ package com.uas.pmb.data
 
 import com.google.gson.annotations.SerializedName
 
+data class AuthResponse(
+    val accessToken: String,
+    val email: String,
+    val role: String
+)
+
 data class UserDto(
     val id: Long? = null,
     val nama: String? = null,
@@ -23,5 +29,3 @@ data class MabaDto(
     val statusVerifikasi: String? = null,
     val statusKelulusan: String? = null
 )
-
-data class AuthResponse(val accessToken: String, val email: String, val role: String)

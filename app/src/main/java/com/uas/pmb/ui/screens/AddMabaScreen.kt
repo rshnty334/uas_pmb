@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.uas.pmb.data.MabaDto
-import com.yourpackage.ui.PmbViewModel
+import com.uas.pmb.ui.screens.PmbViewModel
 
 @Composable
 fun AddMabaScreen(navController: NavController, viewModel: PmbViewModel = hiltViewModel()) {
@@ -36,7 +36,7 @@ fun AddMabaScreen(navController: NavController, viewModel: PmbViewModel = hiltVi
                 tglLahirMaba = "2005-01-01", jenisKelaminMaba = "Laki-laki",
                 alamatMaba = "Bekasi", emailMaba = "test@stis.ac.id", penempatanMaba = "Jawa Barat"
             )
-            viewModel.submitMaba(maba) { navController.popBackStack() }
+            viewModel.addMaba(maba) { navController.popBackStack() }
         }) {
             Text("Simpan Data")
         }
