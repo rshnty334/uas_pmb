@@ -1,10 +1,12 @@
 package com.uas.pmb.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,6 +17,26 @@ fun LoginScreen(
     navController: NavController,
     viewModel: PmbViewModel = hiltViewModel() // Menggunakan ViewModel utama
 ) {
+
+    val errorMessage by viewModel.errorMessage.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            viewModel.clearError() // Hapus pesan agar tidak muncul berulang
+        }
+    }
+
+    LaunchedEffect(viewModel.loginSuccess) {
+        if (viewModel.loginSuccess) {
+            navController.navigate("dashboard") {
+                popUpTo("login") { inclusive = true }
+            }
+            viewModel.resetLoginState()
+        }
+    }
+
     // State untuk menampung input user
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -57,17 +79,11 @@ fun LoginScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Tombol Login
+        // Tombol Login yang diperbaiki
         Button(
             onClick = {
-                // Memanggil fungsi login di PmbViewModel
-                viewModel.login(email, password) {
-                    // Jika login berhasil (onOk), arahkan ke dashboard
-                    navController.navigate("dashboard") {
-                        // Hapus history login agar tidak bisa balik ke layar login lewat tombol back
-                        popUpTo("login") { inclusive = true }
-                    }
-                }
+                // HANYA panggil fungsi login dengan 2 parameter
+                viewModel.login(email, password)
             },
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.medium

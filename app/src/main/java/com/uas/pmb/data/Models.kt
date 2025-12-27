@@ -18,14 +18,20 @@ data class UserDto(
 
 data class MabaDto(
     val idMaba: Long? = null,
-    @SerializedName("NIK") val NIK: String,
-    val namaMaba: String,
-    val tglLahirMaba: String,
-    val jenisKelaminMaba: String,
-    val alamatMaba: String,
-    val emailMaba: String,
-    val idProgramStudi: Long,
-    val penempatanMaba: String,
-    val statusVerifikasi: String? = null,
-    val statusKelulusan: String? = null
+    @SerializedName("NIK") val nik: String, // Gunakan huruf kecil sesuai standar JSON Jackson
+    @SerializedName("namaMaba") val namaMaba: String,
+    @SerializedName("tglLahirMaba") val tglLahirMaba: String,
+    @SerializedName("jenisKelaminMaba") val jenisKelaminMaba: String,
+    @SerializedName("alamatMaba") val alamatMaba: String,
+    @SerializedName("emailMaba") val emailMaba: String,
+    @SerializedName("idProgramStudi") val idProgramStudi: Long,
+    @SerializedName("penempatanMaba") val penempatanMaba: String,
+    val statusVerifikasi: String = "BELUM_DIVERIFIKASI",
+    val statusKelulusan: String = "PENDING"
+)
+
+data class ChangePasswordRequest(
+    val old_password: String,
+    val new_password: String,
+    val confirm_password: String
 )
